@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import {UtilisateurService} from '../utilisateur.service';
 
 @Component({
   selector: 'app-user',
@@ -9,8 +10,8 @@ import { Router } from '@angular/router';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent {
-  constructor(private router: Router) {}
+export class UserComponent implements OnInit{
+  // constructor(private router: Router) {}
 
   // Emprunts en cours
   empruntsEnCours = [
@@ -35,6 +36,23 @@ export class UserComponent {
 
   retour() {
     this.router.navigate(['/livres']);
+  }
+
+  utilisateurs: any[] = [];
+  jsonResponse: any;
+
+  constructor(private utilisateurService: UtilisateurService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.utilisateurService.getUtilisateurs(0, 20, []).subscribe(
+      (data) => {
+        this.utilisateurs = data.content;
+        this.jsonResponse = data;
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des utilisateurs', error);
+      }
+    );
   }
 
 }
