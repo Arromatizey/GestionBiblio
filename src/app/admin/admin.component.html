@@ -1,0 +1,51 @@
+<div class="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4">
+
+  <div class="absolute top-4 right-4">
+    <button
+      (click)="retour()"
+      class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md"
+    >
+      retour
+    </button>
+  </div>
+
+  <h1 class="text-3xl font-bold mb-6 text-gray-800 text-center">
+    Gestion des Utilisateurs
+  </h1>
+
+  <div class="w-full max-w-4xl">
+    <table class="w-full bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
+      <thead>
+      <tr class="bg-gray-200 text-gray-800 text-left text-sm uppercase font-semibold">
+        <th class="py-4 px-6">Nom d'utilisateur</th>
+        <th class="py-4 px-6">Statut</th>
+        <th class="py-4 px-6">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let utilisateur of utilisateurs"
+        class="hover:bg-gray-100 text-gray-700 transition-colors"
+      >
+        <td class="py-4 px-6">{{ utilisateur.nom }}</td>
+        <td class="py-4 px-6">
+            <span
+              class="inline-block px-3 py-1 rounded-full text-xs font-medium text-white"
+              [ngClass]="utilisateur.statut === 'Libraire' ? 'bg-green-500' : 'bg-blue-500'"
+            >
+              {{ utilisateur.statut }}
+            </span>
+        </td>
+        <td class="py-4 px-6">
+          <button
+            (click)="changerStatut(utilisateur)"
+            class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105"
+          >
+            Changer en {{ utilisateur.statut === 'Libraire' ? 'Lecteur' : 'Libraire' }}
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

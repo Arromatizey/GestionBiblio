@@ -1,13 +1,24 @@
-<div class="min-h-screen bg-gray-100 flex items-center justify-center">
-  <div class="w-full max-w-4xl p-6 bg-white shadow-md rounded-lg">
-    <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Profil de l'utilisateur</h1>
+<div class="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4">
+  <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6 border border-gray-200 relative">
+    <!-- Bouton Retour -->
+    <div class="absolute top-4 right-4">
+      <button
+        (click)="retour()"
+        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md"
+      >
+        Retour
+      </button>
+    </div>
 
-    <!-- Emprunts en cours -->
+    <!-- Titre Principal -->
+    <h1 class="text-3xl font-bold mb-6 text-gray-800 text-center">Profil de l'utilisateur</h1>
+
+    <!-- Section Emprunts en cours -->
     <h2 class="text-xl font-semibold mb-4 text-gray-700">Emprunts en cours</h2>
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto mb-8">
       <table class="w-full border-collapse border border-gray-300">
         <thead>
-        <tr class="bg-gray-200 text-gray-800">
+        <tr class="bg-blue-500 text-white">
           <th class="border border-gray-300 px-4 py-2 text-left">Titre</th>
           <th class="border border-gray-300 px-4 py-2 text-left">Auteur</th>
           <th class="border border-gray-300 px-4 py-2 text-left">Date de retour</th>
@@ -23,12 +34,12 @@
       </table>
     </div>
 
-    <!-- Historique -->
-    <h2 class="text-xl font-semibold mt-8 mb-4 text-gray-700">Historique des emprunts</h2>
+    <!-- Section Historique -->
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Historique des emprunts</h2>
     <div class="overflow-x-auto">
       <table class="w-full border-collapse border border-gray-300">
         <thead>
-        <tr class="bg-gray-200 text-gray-800">
+        <tr class="bg-green-500 text-white">
           <th class="border border-gray-300 px-4 py-2 text-left">Titre</th>
           <th class="border border-gray-300 px-4 py-2 text-left">Auteur</th>
           <th class="border border-gray-300 px-4 py-2 text-left">Date d'emprunt</th>

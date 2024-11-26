@@ -1,1 +1,59 @@
-<p>validation works!</p>
+<div class="min-h-screen bg-gray-100 p-6">
+  <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6">
+
+    <div class="absolute top-4 right-4">
+      <button
+        (click)="retour()"
+        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md"
+      >
+        retour
+      </button>
+    </div>
+
+    <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Validation des Demandes</h1>
+    <table class="w-full border-collapse border border-gray-300">
+      <thead>
+      <tr class="bg-gray-200 text-gray-800">
+        <th class="border border-gray-300 px-4 py-2 text-left">Livre</th>
+        <th class="border border-gray-300 px-4 py-2 text-left">Utilisateur</th>
+        <th class="border border-gray-300 px-4 py-2 text-center">Statut</th>
+        <th class="border border-gray-300 px-4 py-2 text-center">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let demande of demandes" class="hover:bg-gray-100">
+        <td class="border border-gray-300 px-4 py-2">{{ demande.livre }}</td>
+        <td class="border border-gray-300 px-4 py-2">{{ demande.utilisateur }}</td>
+        <td class="border border-gray-300 px-4 py-2 text-center">
+            <span
+              class="px-2 py-1 rounded text-white"
+              [ngClass]="{
+                'bg-yellow-500': demande.statut === 'En attente',
+                'bg-green-500': demande.statut === 'Validée',
+                'bg-red-500': demande.statut === 'Rejetée'
+              }"
+            >
+              {{ demande.statut }}
+            </span>
+        </td>
+        <td class="border border-gray-300 px-4 py-2 text-center">
+          <button
+            (click)="validerDemande(demande.id)"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded-lg mr-2"
+            [disabled]="demande.statut !== 'En attente'"
+          >
+            Valider
+          </button>
+          <button
+            (click)="rejeterDemande(demande.id)"
+            class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded-lg"
+            [disabled]="demande.statut !== 'En attente'"
+          >
+            Rejeter
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
