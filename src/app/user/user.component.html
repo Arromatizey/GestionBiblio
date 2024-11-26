@@ -1,0 +1,49 @@
+<div class="min-h-screen bg-gray-100 flex items-center justify-center">
+  <div class="w-full max-w-4xl p-6 bg-white shadow-md rounded-lg">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Profil de l'utilisateur</h1>
+
+    <!-- Emprunts en cours -->
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Emprunts en cours</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse border border-gray-300">
+        <thead>
+        <tr class="bg-gray-200 text-gray-800">
+          <th class="border border-gray-300 px-4 py-2 text-left">Titre</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Auteur</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Date de retour</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let emprunt of empruntsEnCours" class="hover:bg-gray-100">
+          <td class="border border-gray-300 px-4 py-2">{{ emprunt.titre }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ emprunt.auteur }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ emprunt.dateRetour }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Historique -->
+    <h2 class="text-xl font-semibold mt-8 mb-4 text-gray-700">Historique des emprunts</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse border border-gray-300">
+        <thead>
+        <tr class="bg-gray-200 text-gray-800">
+          <th class="border border-gray-300 px-4 py-2 text-left">Titre</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Auteur</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Date d'emprunt</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Date de retour</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let historiqueItem of historique" class="hover:bg-gray-100">
+          <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.titre }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.auteur }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.dateEmprunt }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.dateRetour }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
