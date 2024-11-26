@@ -1,59 +1,96 @@
 <div class="min-h-screen bg-gray-100 p-6">
-  <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6">
+  <div class="max-w-5xl mx-auto bg-white shadow-xl rounded-lg p-6">
 
+    <!-- Bouton de retour -->
     <div class="absolute top-4 right-4">
       <button
         (click)="retour()"
         class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md"
       >
-        retour
+        Retour
       </button>
     </div>
 
+    <!-- Titre principal -->
     <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Validation des Demandes</h1>
-    <table class="w-full border-collapse border border-gray-300">
-      <thead>
-      <tr class="bg-gray-200 text-gray-800">
-        <th class="border border-gray-300 px-4 py-2 text-left">Livre</th>
-        <th class="border border-gray-300 px-4 py-2 text-left">Utilisateur</th>
-        <th class="border border-gray-300 px-4 py-2 text-center">Statut</th>
-        <th class="border border-gray-300 px-4 py-2 text-center">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let demande of demandes" class="hover:bg-gray-100">
-        <td class="border border-gray-300 px-4 py-2">{{ demande.livre }}</td>
-        <td class="border border-gray-300 px-4 py-2">{{ demande.utilisateur }}</td>
-        <td class="border border-gray-300 px-4 py-2 text-center">
-            <span
-              class="px-2 py-1 rounded text-white"
-              [ngClass]="{
-                'bg-yellow-500': demande.statut === 'En attente',
-                'bg-green-500': demande.statut === 'Validée',
-                'bg-red-500': demande.statut === 'Rejetée'
-              }"
+
+    <!-- Table des demandes en attente -->
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Demandes en attente</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full border-collapse bg-white rounded-lg shadow-md">
+        <thead class=" bg-gray-200">
+        <tr>
+          <th class="px-4 py-2 text-left font-semibold text-gray-800">Livre</th>
+          <th class="px-4 py-2 text-left font-semibold text-gray-800">Utilisateur</th>
+          <th class="px-4 py-2 text-center font-semibold text-gray-800">Statut</th>
+          <th class="px-4 py-2 text-center font-semibold text-gray-800">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let demande of demandes" class="hover:bg-gray-100">
+          <td class="px-4 py-2 border-t border-gray-300">{{ demande.livre }}</td>
+          <td class="px-4 py-2 border-t border-gray-300">{{ demande.utilisateur }}</td>
+          <td class="px-4 py-2 border-t border-gray-300 text-center">
+              <span
+                class="px-2 py-1 rounded text-white"
+                [ngClass]="{
+                  'bg-yellow-500': demande.statut === 'En attente',
+                  'bg-green-500': demande.statut === 'Validée',
+                  'bg-red-500': demande.statut === 'Rejetée'
+                }"
+              >
+                {{ demande.statut }}
+              </span>
+          </td>
+          <td class="px-4 py-2 border-t border-gray-300 text-center">
+            <button
+              (click)="validerDemande(demande.id)"
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded-lg mr-2"
+              [disabled]="demande.statut !== 'En attente'"
             >
-              {{ demande.statut }}
-            </span>
-        </td>
-        <td class="border border-gray-300 px-4 py-2 text-center">
-          <button
-            (click)="validerDemande(demande.id)"
-            class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded-lg mr-2"
-            [disabled]="demande.statut !== 'En attente'"
-          >
-            Valider
-          </button>
-          <button
-            (click)="rejeterDemande(demande.id)"
-            class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded-lg"
-            [disabled]="demande.statut !== 'En attente'"
-          >
-            Rejeter
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+              Valider
+            </button>
+            <button
+              (click)="rejeterDemande(demande.id)"
+              class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded-lg"
+              [disabled]="demande.statut !== 'En attente'"
+            >
+              Rejeter
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table des emprunts en cours -->
+    <h2 class="text-xl font-semibold mt-8 mb-4 text-gray-700">Emprunts en cours</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full border-collapse bg-white rounded-lg shadow-md">
+        <thead class="bg-blue-500 text-white">
+        <tr>
+          <th class="px-4 py-2 text-left font-semibold">Livre</th>
+          <th class="px-4 py-2 text-left font-semibold">Utilisateur</th>
+          <th class="px-4 py-2 text-left font-semibold">Date de retour</th>
+          <th class="px-4 py-2 text-center font-semibold">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let emprunt of empruntsEnCours" class="hover:bg-gray-100">
+          <td class="px-4 py-2 border-t border-gray-300">{{ emprunt.livre }}</td>
+          <td class="px-4 py-2 border-t border-gray-300">{{ emprunt.utilisateur }}</td>
+          <td class="px-4 py-2 border-t border-gray-300">{{ emprunt.dateRetour }}</td>
+          <td class="px-4 py-2 border-t border-gray-300 text-center">
+            <button
+              (click)="marquerCommeRetourne(emprunt.id)"
+              class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-1 px-3 rounded-lg"
+            >
+              Marquer comme retourné
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
