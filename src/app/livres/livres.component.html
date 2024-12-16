@@ -21,13 +21,16 @@
     <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Liste des Livres</h1>
 
     <!-- Grille des livres -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngIf="livres.length > 0; else noBooks" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
         *ngFor="let livre of livres"
         class="bg-white shadow-md rounded-lg p-4 border border-gray-200 hover:shadow-lg transition-shadow"
       >
         <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ livre.titre }}</h2>
-        <p class="text-gray-600 mb-4">Auteur : {{ livre.auteur }}</p>
+        <p class="text-gray-600 mb-1">Auteur : {{ livre.auteur }}</p>
+        <p class="text-gray-600 mb-1">Genre : {{ livre.genre }}</p>
+        <p class="text-gray-600 mb-1">Année de publication : {{ livre.anneePublication }}</p>
+        <p class="text-gray-600 mb-4">Exemplaires disponibles : {{ livre.exemplairesDisponibles }}</p>
         <span
           class="inline-block px-3 py-1 rounded-full text-sm font-medium text-white mb-4"
           [ngClass]="livre.disponible ? 'bg-green-500' : 'bg-red-500'"
@@ -43,6 +46,11 @@
         </button>
       </div>
     </div>
+
+    <!-- Message si aucun livre -->
+    <ng-template #noBooks>
+      <p class="text-center text-gray-600 mt-6">Aucun livre disponible pour le moment.</p>
+    </ng-template>
 
     <!-- Bouton vers Admin -->
     <div class="absolute bottom-4 right-4">
