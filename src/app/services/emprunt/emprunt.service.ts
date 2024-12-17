@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root', // Rend ce service disponible dans toute l'application
 })
-export class LivreService {
-  private apiUrl = 'http://localhost:8080/livres';
+export class EmpruntService {
+  private apiUrl = 'http://localhost:8080/emprunts';
 
   constructor(private http: HttpClient) {}
 
-  getLivres(page: number = 0, size: number = 21, sort: string[] = []): Observable<any> {
+  getEmprunt(page: number = 0, size: number = 20, sort: string[] = []): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());

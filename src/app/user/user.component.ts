@@ -1,58 +1,81 @@
-import {Component, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {UtilisateurService} from '../services/utilisateur/utilisateur.service';
+import { EmpruntUserService } from '../services/EmpruntUser/empruntUser.service';
+import { AppComponent } from '../app.component';
+import { JsonPipe, NgForOf } from '@angular/common';
+
+interface Livre {
+  id: number;
+  titre: string;
+  auteur: string;
+  genre: string;
+  anneePublication: number;
+  exemplairesDisponibles: number;
+}
+
+interface Emprunt {
+  id: number;
+  livreId: number;
+  dateEmprunt: string;
+  dateRetour: string | null;
+  livre?: Livre; // Détails du livre (récupérés via API)
+}
 
 @Component({
   selector: 'app-user',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './user.component.html',
+  imports: [NgForOf, JsonPipe],
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit{
-  // constructor(private router: Router) {}
-
-  // Emprunts en cours
-  empruntsEnCours = [
-    { titre: 'Les Misérables', auteur: 'Victor Hugo', dateRetour: '2024-12-01' },
-    { titre: 'Le Comte de Monte-Cristo', auteur: 'Alexandre Dumas', dateRetour: '2024-12-15' },
-  ];
-
-  historique = [
-    {
-      titre: '1984',
-      auteur: 'George Orwell',
-      dateEmprunt: '2024-09-01',
-      dateRetour: '2024-09-20',
-    },
-    {
-      titre: 'Le Petit Prince',
-      auteur: 'Antoine de Saint-Exupéry',
-      dateEmprunt: '2024-07-15',
-      dateRetour: '2024-08-10',
-    },
-  ];
-
-  retour() {
-    this.router.navigate(['/livres']);
-  }
-
-  utilisateurs: any[] = [];
+export class UserComponent implements OnInit {
+  empruntsEnCours: Emprunt[] = [];
+  historique: Emprunt[] = [];
+  utilisateurID: number = AppComponent.userID;
   jsonResponse: any;
 
-  constructor(private utilisateurService: UtilisateurService, private router: Router) {}
+  constructor(
+    private empruntUserService: EmpruntUserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.utilisateurService.getUtilisateurs(0, 20, []).subscribe(
+    AppComponent.userID = 1; // Simuler un utilisateur connecté
+    this.utilisateurID = AppComponent.userID;
+
+    this.empruntUserService.getEmpruntUser(this.utilisateurID).subscribe(
       (data) => {
-        this.utilisateurs = data.content;
-        this.jsonResponse = data;
+        const emprunts: Emprunt[] = data._embedded.emprunts;
+
+        // Filtrer les emprunts en cours et l'historique
+        this.empruntsEnCours = emprunts.filter((e) => !e.dateRetour);
+        this.historique = emprunts.filter((e) => e.dateRetour);
+
+        // Charger les détails des livres
+        this.loadBookDetails(this.empruntsEnCours);
+        this.loadBookDetails(this.historique);
+
+        this.jsonResponse = data; // Optionnel pour debug
       },
       (error) => {
-        console.error('Erreur lors de la récupération des utilisateurs', error);
+        console.error('Erreur lors de la récupération des emprunts', error);
       }
     );
   }
 
+  loadBookDetails(emprunts: Emprunt[]): void {
+    emprunts.forEach((emprunt) => {
+      this.empruntUserService.getLivre(emprunt.livreId).subscribe(
+        (livre: Livre) => {
+          emprunt.livre = livre; // Associer les détails du livre à l'emprunt
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération du livre', error);
+        }
+      );
+    });
+  }
+
+  retour(): void {
+    this.router.navigate(['/livres']);
+  }
 }

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { EmpruntService } from '../services/emprunt/emprunt.service'; // Import du service
 
 @Component({
   selector: 'app-validation',
@@ -9,31 +10,46 @@ import { Router } from '@angular/router';
   templateUrl: './validation.component.html',
   styleUrls: ['./validation.component.css'],
 })
-export class ValidationComponent {
-  constructor(private router: Router) {}
+export class ValidationComponent implements OnInit {
+  demandes: any[] = [];
+  empruntsEnCours: any[] = [];
 
-  demandes = [
-    { id: 1, livre: 'Le Petit Prince', utilisateur: 'Jean Dupont', statut: 'En attente' },
-    { id: 2, livre: '1984', utilisateur: 'Marie Curie', statut: 'En attente' },
-    { id: 3, livre: 'Harry Potter', utilisateur: 'Luc Durand', statut: 'En attente' },
-  ];
+  constructor(private router: Router, private empruntService: EmpruntService) {}
 
-  empruntsEnCours = [
-    { id: 101, livre: 'Les Misérables', utilisateur: 'Alice', dateRetour: '2024-12-01' },
-    { id: 102, livre: 'Le Comte de Monte-Cristo', utilisateur: 'Bob', dateRetour: '2024-12-15' },
-  ];
+  ngOnInit() {
+    // Appeler le service pour récupérer les demandes
+    this.loadDemandes();
+  }
+
+  loadDemandes() {
+    this.empruntService.getEmprunt().subscribe({
+      next: (data: { userId: any; livreTitle: any; userName: any; userSurname: any; }) => {
+        // Transformer les données reçues pour correspondre au format attendu
+        this.demandes = [
+          {
+            id: data.userId,
+            livre: data.livreTitle,
+            utilisateur: `${data.userName} ${data.userSurname}`,
+            statut: 'En attente',
+          },
+        ];
+      },
+      error: (err: any) => {
+        console.error('Erreur lors du chargement des demandes :', err);
+      },
+    });
+  }
 
   // Méthode pour valider une demande
   validerDemande(id: number) {
     const demande = this.demandes.find((d) => d.id === id);
     if (demande) {
       demande.statut = 'Validée';
-      // Simuler l'ajout de l'emprunt en cours
       this.empruntsEnCours.push({
-        id: Math.random(), // ID unique simulé
+        id: Math.random(),
         livre: demande.livre,
         utilisateur: demande.utilisateur,
-        dateRetour: '2024-12-30', // Exemple de date de retour
+        dateRetour: '2024-12-30',
       });
     }
   }

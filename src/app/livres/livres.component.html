@@ -20,10 +20,38 @@
     <!-- Titre principal -->
     <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Liste des Livres</h1>
 
+    <!-- Formulaire de recherche -->
+    <div class="mb-6">
+      <h2 class="text-xl font-bold mb-4">Rechercher un livre</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <input
+          type="text"
+          placeholder="Titre"
+          [(ngModel)]="searchTitre"
+          (input)="filtrerLivres()"
+          class="border p-2 rounded-lg w-full"
+        />
+        <input
+          type="text"
+          placeholder="Auteur"
+          [(ngModel)]="searchAuteur"
+          (input)="filtrerLivres()"
+          class="border p-2 rounded-lg w-full"
+        />
+        <input
+          type="text"
+          placeholder="Genre"
+          [(ngModel)]="searchGenre"
+          (input)="filtrerLivres()"
+          class="border p-2 rounded-lg w-full"
+        />
+      </div>
+    </div>
+
     <!-- Grille des livres -->
-    <div *ngIf="livres.length > 0; else noBooks" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngIf="filteredLivres.length > 0; else noBooks" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
-        *ngFor="let livre of livres"
+        *ngFor="let livre of filteredLivres"
         class="bg-white shadow-md rounded-lg p-4 border border-gray-200 hover:shadow-lg transition-shadow"
       >
         <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ livre.titre }}</h2>
@@ -49,7 +77,7 @@
 
     <!-- Message si aucun livre -->
     <ng-template #noBooks>
-      <p class="text-center text-gray-600 mt-6">Aucun livre disponible pour le moment.</p>
+      <p class="text-center text-gray-600 mt-6">Aucun livre correspondant à votre recherche.</p>
     </ng-template>
 
     <!-- Bouton vers Admin -->

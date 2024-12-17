@@ -21,14 +21,14 @@
         <tr class="bg-blue-500 text-white">
           <th class="border border-gray-300 px-4 py-2 text-left">Titre</th>
           <th class="border border-gray-300 px-4 py-2 text-left">Auteur</th>
-          <th class="border border-gray-300 px-4 py-2 text-left">Date de retour</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Date d'emprunt</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let emprunt of empruntsEnCours" class="hover:bg-gray-100">
-          <td class="border border-gray-300 px-4 py-2">{{ emprunt.titre }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ emprunt.auteur }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ emprunt.dateRetour }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ emprunt.livre?.titre || 'Chargement...' }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ emprunt.livre?.auteur || 'Chargement...' }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ emprunt.dateEmprunt || 'Non retourné' }}</td>
         </tr>
         </tbody>
       </table>
@@ -48,8 +48,8 @@
         </thead>
         <tbody>
         <tr *ngFor="let historiqueItem of historique" class="hover:bg-gray-100">
-          <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.titre }}</td>
-          <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.auteur }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.livre?.titre || 'Chargement...' }}</td>
+          <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.livre?.auteur || 'Chargement...' }}</td>
           <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.dateEmprunt }}</td>
           <td class="border border-gray-300 px-4 py-2">{{ historiqueItem.dateRetour }}</td>
         </tr>
@@ -58,6 +58,8 @@
     </div>
   </div>
 </div>
+
+<!-- Affichage de la réponse JSON (optionnel) -->
 <div>
   <h2>JSON Response</h2>
   <pre>{{ jsonResponse | json }}</pre>

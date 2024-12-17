@@ -4,6 +4,7 @@ import { LivresComponent } from './livres/livres.component';
 import { ValidationComponent } from './validation/validation.component';
 import { UserComponent } from './user/user.component';
 import { AdminComponent } from './admin/admin.component';
+import {InscriptionComponent} from './inscription/inscription.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
@@ -12,4 +13,5 @@ export const routes: Routes = [
   { path: 'validation', component: ValidationComponent },
   { path: 'user', component: UserComponent },
   { path: 'admin', component: AdminComponent },
+  { path: 'inscription', component : InscriptionComponent}
 ];
