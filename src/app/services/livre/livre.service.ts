@@ -35,4 +35,10 @@ export class LivreService {
     console.log("ici");
   }
 
+  getUser(userID: number): Observable<any>{
+    const url = `http://localhost:8080/utilisateurs/${userID}`
+
+    return this.http.get(url);
+  }
+
 }

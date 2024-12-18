@@ -12,6 +12,6 @@ import {CommonModule} from '@angular/common';
 })
 export class AppComponent {
   title = 'GestionBiblio';
+  public static role: any;
   public static userID: any;
-  userID = '1';
 }

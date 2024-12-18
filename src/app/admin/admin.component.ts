@@ -27,8 +27,10 @@ export class AdminComponent implements OnInit {
       next: (data: any) => {
         const bibliothecaires = data._embedded?.bibliothecaires || [];
         const membres = data._embedded?.membres || [];
+        const admin = data._embedded?.administrateur || [];
 
         // Fusionner les bibliothécaires et membres dans un tableau unique avec leur rôle
+
         this.utilisateurs = [
           ...bibliothecaires.map((user: any) => ({
             id: user._links.self.href.split('/').pop(),
@@ -41,6 +43,7 @@ export class AdminComponent implements OnInit {
             statut: 'Lecteur',
           }))
         ];
+
       },
       error: (err: any) => {
         console.error('Erreur lors du chargement des utilisateurs :', err);

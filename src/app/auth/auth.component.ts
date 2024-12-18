@@ -24,6 +24,7 @@ export class AuthComponent {
       (response: { user: { id: number }; }) => {
         // Si la connexion réussit, on sauvegarde l'ID utilisateur
         AppComponent.userID = response.user.id;
+        AppComponent.role = response.user;
         console.log('Utilisateur connecté : ', AppComponent.userID);
 
         // Logique de redirection vers la page des livres
