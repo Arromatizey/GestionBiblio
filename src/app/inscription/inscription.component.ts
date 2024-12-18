@@ -50,7 +50,7 @@ export class InscriptionComponent {
   }
 
   goToLogin() {
-    this.router.navigate(['/connexion']);
+    this.router.navigate(['/auth']);
   }
 
 }
