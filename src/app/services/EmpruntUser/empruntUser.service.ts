@@ -9,7 +9,7 @@ import {AppComponent} from '../../app.component';
 export class EmpruntUserService {
   private apiUrlEmprunt = 'http://localhost:8080/emprunts/search/findByUtilisateurId';
   private apiUrlLivre = 'http://localhost:8080/livres'
-  private apiUrlUser = 'http://loclalhost:8080/utilisateurs/'
+  private apiUrlUser = 'http://loclalhost:8080/utilisateurs'
 
   constructor(private http: HttpClient) {}
 
@@ -88,14 +88,7 @@ export class EmpruntUserService {
   //     }
   //   }
 
-  getLivre(livreID: number, sort: string[] = []): Observable<any>{
-    let params = new HttpParams()
-      .set('livreID', livreID.toString());
-
-    sort.forEach((sortCriteria) => {
-      params = params.append('sort', sortCriteria);
-    });
-
+  getLivre(livreID: number): Observable<any>{
     const url = `${this.apiUrlLivre}/${livreID}`
 
     return this.http.get(url);
@@ -118,15 +111,11 @@ export class EmpruntUserService {
   //     }
   //   }
 
-  getUser(userID: number, sort: string[] = []): Observable<any>{
-    let params = new HttpParams()
-      .set('userID', userID.toString());
+  //TODO: afficher le nom du gars
+  getUser(userID: number): Observable<any>{
+    const url = `${this.apiUrlUser}/${userID}`
 
-    sort.forEach((sortCriteria) => {
-      params = params.append('sort', sortCriteria);
-    });
-
-    return this.http.get(this.apiUrlUser, { params });
+    return this.http.get(url);
   }
 
   // response example :

@@ -24,7 +24,7 @@ interface Emprunt {
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  imports: [NgForOf, JsonPipe],
+  imports: [NgForOf],
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
@@ -39,7 +39,7 @@ export class UserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    AppComponent.userID = 1; // Simuler un utilisateur connecté
+    //AppComponent.userID = 1; // Simuler un utilisateur connecté
     this.utilisateurID = AppComponent.userID;
 
     this.empruntUserService.getEmpruntUser(this.utilisateurID).subscribe(

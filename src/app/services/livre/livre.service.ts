@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class LivreService {
   private apiUrl = 'http://localhost:8080/livres';
+  private apiLivre = 'http://localhost:8080/emprunt/borrow';
 
   constructor(private http: HttpClient) {}
 
@@ -21,4 +22,17 @@ export class LivreService {
 
     return this.http.get(this.apiUrl, { params });
   }
+
+  empruntBorrow(userID: number, livreID: number){
+    const url = `http://localhost:8080/emprunt/borrow?userId=${userID}&livreId=${livreID}`;
+    return this.http.post<any>(url, {});
+  }
+
+  notification(){
+
+    const url = `http://localhost:8080/notifications/trigger`;
+    return this.http.get(url);
+    console.log("ici");
+  }
+
 }

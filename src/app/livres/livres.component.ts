@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LivreService } from '../services/livre/livre.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {AppComponent} from '../app.component';
 
 // Déclaration de l'interface Livre
 interface Livre {
@@ -73,13 +74,33 @@ export class LivresComponent implements OnInit {
   }
 
   emprunterLivre(livre: Livre): void {
-    if (livre.disponible) {
-      livre.exemplairesDisponibles--;
-      livre.disponible = livre.exemplairesDisponibles > 0;
-      this.confirmationMessage = `Vous avez demandé à emprunter le livre "${livre.titre}"`;
-      setTimeout(() => (this.confirmationMessage = null), 3000);
+    if (!livre.disponible) {
+      return;
     }
-  }
+
+    // Appel au service pour emprunter un livre
+    this.livreService.empruntBorrow(AppComponent.userID, livre.id).subscribe({
+      next: (response: any) => {
+        if (response.emprunt) {
+          // Si l'emprunt est réussi, mettre à jour le livre et afficher un message de confirmation
+          livre.exemplairesDisponibles--;
+          livre.disponible = livre.exemplairesDisponibles > 0;
+          this.confirmationMessage = `Emprunt réussi ! Vous avez emprunté "${livre.titre}".`;
+          setTimeout(() => (this.confirmationMessage = null), 3000);
+          this.livreService.notification();
+        } else if (response.message) {
+          // Si une erreur est retournée par le backend, afficher un popup
+          alert(response.message);
+        }
+      },
+      error: (error) => {
+        // Gérer les erreurs éventuelles (par exemple, problème réseau)
+        console.error('Erreur lors de l\'emprunt du livre:', error);
+        alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+      },
+    });
+
+}
 
   naviguerVersProfil(): void {
     this.router.navigate(['/user']);
